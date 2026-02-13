@@ -1,4 +1,5 @@
 import Navbar from "@/components/Navbar";
+import PageTransition from "@/components/PageTransition";
 import ProductCard from "@/components/ProductCard";
 import { products } from "@/data/mockProducts";
 
@@ -7,9 +8,9 @@ const filters = ["All", "Tops", "Bottoms", "Shoes", "Accessories"];
 const Marketplace = () => {
   // TODO: Add filter state and logic when backend is connected
   return (
+    <PageTransition>
     <div className="min-h-screen bg-background">
       <Navbar />
-
       <section className="container mx-auto px-4 py-12">
         <div className="text-center mb-10">
           <h1 className="font-display text-4xl md:text-5xl font-bold text-foreground">
@@ -44,6 +45,7 @@ const Marketplace = () => {
         </div>
       </section>
     </div>
+    </PageTransition>
   );
 };
 

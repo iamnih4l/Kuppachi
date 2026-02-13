@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
+import PageTransition from "@/components/PageTransition";
 import StyleBadge from "@/components/StyleBadge";
 import { fitLabItems, type FitLabItem } from "@/data/mockProducts";
 import { RotateCcw, Sparkles, Save, Share2 } from "lucide-react";
@@ -16,6 +17,7 @@ const FitLabs = () => {
   const filteredItems = fitLabItems.filter((item) => item.category === activeCategory);
 
   return (
+    <PageTransition>
     <div className="min-h-screen bg-background">
       <Navbar />
 
@@ -123,6 +125,7 @@ const FitLabs = () => {
         </div>
       </div>
     </div>
+    </PageTransition>
   );
 };
 
