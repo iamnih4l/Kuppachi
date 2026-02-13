@@ -1,5 +1,6 @@
 import { Upload, ArrowRight } from "lucide-react";
 import Navbar from "@/components/Navbar";
+import PageTransition from "@/components/PageTransition";
 import StyleBadge from "@/components/StyleBadge";
 import { communityFits } from "@/data/mockProducts";
 import { Heart } from "lucide-react";
@@ -13,6 +14,7 @@ const palettes = [
 
 const AiUpload = () => {
   return (
+    <PageTransition>
     <div className="min-h-screen bg-background">
       <Navbar />
 
@@ -108,6 +110,7 @@ const AiUpload = () => {
         </div>
       </section>
     </div>
+    </PageTransition>
   );
 };
 

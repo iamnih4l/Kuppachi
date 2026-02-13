@@ -1,12 +1,14 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Heart } from "lucide-react";
 import Navbar from "@/components/Navbar";
+import PageTransition from "@/components/PageTransition";
 import { products, communityFits } from "@/data/mockProducts";
 import ProductCard from "@/components/ProductCard";
 import StyleBadge from "@/components/StyleBadge";
 
 const Index = () => {
   return (
+    <PageTransition>
     <div className="min-h-screen bg-background">
       <Navbar />
 
@@ -124,6 +126,7 @@ const Index = () => {
         </div>
       </footer>
     </div>
+    </PageTransition>
   );
 };
 
