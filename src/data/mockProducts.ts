@@ -1,6 +1,7 @@
 export interface Product {
   id: string;
   name: string;
+  shop: string;
   price: number;
   image: string;
   tag?: string;
@@ -12,6 +13,7 @@ export const products: Product[] = [
   {
     id: "1",
     name: "Kasargod Cotton Tee",
+    shop: "Malabar Threads",
     price: 899,
     image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=500&fit=crop",
     tag: "Kasargod Pick",
@@ -21,6 +23,7 @@ export const products: Product[] = [
   {
     id: "2",
     name: "Relaxed Fit Bottoms",
+    shop: "Coastal Casuals",
     price: 1299,
     image: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&h=500&fit=crop",
     tag: "Street Fit",
@@ -30,6 +33,7 @@ export const products: Product[] = [
   {
     id: "3",
     name: "Classic White Sneakers",
+    shop: "Step Culture",
     price: 2499,
     image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&h=500&fit=crop",
     tag: "Creator Favorite",
@@ -39,6 +43,7 @@ export const products: Product[] = [
   {
     id: "4",
     name: "Summer Casual Top",
+    shop: "Malabar Threads",
     price: 1099,
     image: "https://images.unsplash.com/photo-1434389677669-e08b4cda3a20?w=400&h=500&fit=crop",
     tag: "Street Fit",
@@ -48,6 +53,7 @@ export const products: Product[] = [
   {
     id: "5",
     name: "Minimal Accessories",
+    shop: "Artisan Collective",
     price: 699,
     image: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=400&h=500&fit=crop",
     tag: "Kasargod Pick",
@@ -57,6 +63,7 @@ export const products: Product[] = [
   {
     id: "6",
     name: "Everyday Comfort Wear",
+    shop: "Coastal Casuals",
     price: 1499,
     image: "https://images.unsplash.com/photo-1490114538077-0a7f8cb49891?w=400&h=500&fit=crop",
     tag: "Creator Favorite",
