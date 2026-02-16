@@ -14,8 +14,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ["Playfair Display", "serif"],
-        sans: ["DM Sans", "sans-serif"],
+        display: ["Bebas Neue", "sans-serif"],
+        sans: ["Space Grotesk", "sans-serif"],
+        handwritten: ["Caveat", "cursive"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -50,6 +51,22 @@ export default {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
+        },
+        desi: {
+          red: "hsl(var(--desi-red))",
+          "red-light": "hsl(var(--desi-red-light))",
+          yellow: "hsl(var(--desi-yellow))",
+          "yellow-light": "hsl(var(--desi-yellow-light))",
+          blue: "hsl(var(--desi-blue))",
+          "blue-light": "hsl(var(--desi-blue-light))",
+          saffron: "hsl(var(--desi-saffron))",
+          "saffron-light": "hsl(var(--desi-saffron-light))",
+          green: "hsl(var(--desi-green))",
+          "green-light": "hsl(var(--desi-green-light))",
+          black: "hsl(var(--desi-black))",
+          cream: "hsl(var(--desi-cream))",
+          pink: "hsl(var(--desi-pink))",
+          "pink-light": "hsl(var(--desi-pink-light))",
         },
         kasargod: {
           green: "hsl(var(--kasargod-green))",
@@ -90,11 +107,23 @@ export default {
           "0%": { opacity: "0", transform: "translateY(10px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
         },
+        "wobble": {
+          "0%, 100%": { transform: "rotate(-2deg)" },
+          "50%": { transform: "rotate(2deg)" },
+        },
+        "bounce-in": {
+          "0%": { transform: "scale(0.3)", opacity: "0" },
+          "50%": { transform: "scale(1.05)" },
+          "70%": { transform: "scale(0.9)" },
+          "100%": { transform: "scale(1)", opacity: "1" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-in": "fade-in 0.3s ease-out",
+        "wobble": "wobble 2s ease-in-out infinite",
+        "bounce-in": "bounce-in 0.5s ease-out",
       },
     },
   },
