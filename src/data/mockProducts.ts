@@ -17,7 +17,7 @@ export const products: Product[] = [
     price: 899,
     image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=500&fit=crop",
     tag: "Kasargod Pick",
-    tagColor: "bg-kasargod-green-light text-kasargod-green",
+    tagColor: "bg-desi-red-light text-primary font-bold border border-primary/30",
     colors: ["#A8D8C8", "#F5C5A3", "#F4A0B0"],
   },
   {
@@ -27,7 +27,7 @@ export const products: Product[] = [
     price: 1299,
     image: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&h=500&fit=crop",
     tag: "Street Fit",
-    tagColor: "bg-kasargod-peach text-foreground",
+    tagColor: "bg-desi-yellow-light text-desi-black font-bold border border-desi-yellow/40",
     colors: ["#333333", "#1a3a5c", "#5c3a2e"],
   },
   {
@@ -37,7 +37,7 @@ export const products: Product[] = [
     price: 2499,
     image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&h=500&fit=crop",
     tag: "Creator Favorite",
-    tagColor: "bg-kasargod-pink/20 text-kasargod-coral",
+    tagColor: "bg-desi-blue-light text-desi-blue font-bold border border-desi-blue/30",
     colors: ["#e8e8e8", "#d4e8d4", "#c8c8c8"],
   },
   {
@@ -47,7 +47,7 @@ export const products: Product[] = [
     price: 1099,
     image: "https://images.unsplash.com/photo-1434389677669-e08b4cda3a20?w=400&h=500&fit=crop",
     tag: "Street Fit",
-    tagColor: "bg-kasargod-peach text-foreground",
+    tagColor: "bg-desi-saffron-light text-desi-saffron font-bold border border-desi-saffron/30",
     colors: ["#F4A0B0", "#B8A0D8", "#D8A0F4"],
   },
   {
@@ -57,7 +57,7 @@ export const products: Product[] = [
     price: 699,
     image: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=400&h=500&fit=crop",
     tag: "Kasargod Pick",
-    tagColor: "bg-kasargod-green-light text-kasargod-green",
+    tagColor: "bg-desi-green-light text-desi-green font-bold border border-desi-green/30",
     colors: ["#D4A800", "#888888", "#C87533"],
   },
   {
@@ -67,7 +67,7 @@ export const products: Product[] = [
     price: 1499,
     image: "https://images.unsplash.com/photo-1490114538077-0a7f8cb49891?w=400&h=500&fit=crop",
     tag: "Creator Favorite",
-    tagColor: "bg-kasargod-pink/20 text-kasargod-coral",
+    tagColor: "bg-desi-pink-light text-desi-pink font-bold border border-desi-pink/30",
     colors: ["#F5E680", "#A0D8E8", "#F4A0B0"],
   },
 ];

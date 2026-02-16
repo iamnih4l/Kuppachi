@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, Package, Upload, LogOut } from "lucide-react";
+import { LayoutDashboard, Package, Upload, LogOut, Zap } from "lucide-react";
 import { useStore } from "@/store/useStore";
 
 const sellerLinks = [
@@ -15,15 +15,15 @@ const SellerLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="min-h-screen bg-background flex">
       {/* Sidebar */}
-      <aside className="w-60 border-r border-border bg-card hidden md:flex flex-col">
-        <div className="p-5 border-b border-border">
-          <Link to="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-kasargod-green-light flex items-center justify-center">
-              <span className="text-kasargod-green text-sm">✦</span>
+      <aside className="w-60 border-r-2 border-foreground/10 bg-card hidden md:flex flex-col">
+        <div className="p-5 border-b-2 border-foreground/10">
+          <Link to="/" className="flex items-center gap-2 group">
+            <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center rotate-[-3deg] desi-shadow-sm group-hover:rotate-0 transition-transform">
+              <Zap className="w-4 h-4 text-primary-foreground" />
             </div>
-            <span className="font-display text-lg font-bold text-foreground">Kasargod</span>
+            <span className="font-display text-xl text-foreground tracking-wider">FITLABS</span>
           </Link>
-          <p className="text-xs text-muted-foreground mt-1">Seller Studio</p>
+          <p className="text-xs font-bold text-muted-foreground mt-1 tracking-widest uppercase">SELLER STUDIO</p>
         </div>
 
         <nav className="flex-1 p-3 space-y-1">
@@ -33,9 +33,9 @@ const SellerLayout = ({ children }: { children: React.ReactNode }) => {
               <Link
                 key={link.to}
                 to={link.to}
-                className={`flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                className={`flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-bold transition-all ${
                   isActive
-                    ? "bg-kasargod-green-light text-kasargod-green"
+                    ? "bg-primary text-primary-foreground desi-shadow-sm"
                     : "text-muted-foreground hover:bg-muted"
                 }`}
               >
@@ -46,11 +46,11 @@ const SellerLayout = ({ children }: { children: React.ReactNode }) => {
           })}
         </nav>
 
-        <div className="p-3 border-t border-border">
+        <div className="p-3 border-t-2 border-foreground/10">
           <Link
             to="/login"
             onClick={() => logout()}
-            className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium text-muted-foreground hover:bg-muted transition-colors"
+            className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-bold text-muted-foreground hover:bg-desi-red-light hover:text-primary transition-colors"
           >
             <LogOut className="w-4 h-4" />
             Logout
@@ -59,13 +59,13 @@ const SellerLayout = ({ children }: { children: React.ReactNode }) => {
       </aside>
 
       {/* Mobile header for seller */}
-      <div className="md:hidden fixed top-0 left-0 right-0 z-50 bg-card border-b border-border px-4 py-3">
+      <div className="md:hidden fixed top-0 left-0 right-0 z-50 bg-card border-b-2 border-foreground/10 px-4 py-3">
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-full bg-kasargod-green-light flex items-center justify-center">
-              <span className="text-kasargod-green text-xs">✦</span>
+            <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center rotate-[-3deg]">
+              <Zap className="w-3.5 h-3.5 text-primary-foreground" />
             </div>
-            <span className="font-display text-base font-bold text-foreground">Kasargod</span>
+            <span className="font-display text-lg text-foreground tracking-wider">FITLABS</span>
           </Link>
         </div>
         <div className="flex gap-1 mt-2 overflow-x-auto">
@@ -75,9 +75,9 @@ const SellerLayout = ({ children }: { children: React.ReactNode }) => {
               <Link
                 key={link.to}
                 to={link.to}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-colors ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap transition-all ${
                   isActive
-                    ? "bg-kasargod-green-light text-kasargod-green"
+                    ? "bg-primary text-primary-foreground desi-shadow-sm"
                     : "text-muted-foreground hover:bg-muted"
                 }`}
               >

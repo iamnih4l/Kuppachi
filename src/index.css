@@ -2,88 +2,103 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=DM+Sans:wght@400;500;600;700&display=swap');
-
 @layer base {
   :root {
-    --background: 20 33% 97%;
-    --foreground: 20 10% 15%;
+    /* Desi Maximalism palette */
+    --background: 45 30% 96%;
+    --foreground: 30 10% 10%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 20 10% 15%;
+    --card: 45 40% 98%;
+    --card-foreground: 30 10% 10%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 20 10% 15%;
+    --popover: 45 40% 98%;
+    --popover-foreground: 30 10% 10%;
 
-    --primary: 160 35% 45%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 0 75% 50%;
+    --primary-foreground: 45 30% 96%;
 
-    --secondary: 20 60% 85%;
-    --secondary-foreground: 20 10% 15%;
+    --secondary: 45 80% 65%;
+    --secondary-foreground: 30 10% 10%;
 
-    --muted: 20 20% 93%;
-    --muted-foreground: 20 10% 45%;
+    --muted: 40 25% 90%;
+    --muted-foreground: 30 10% 40%;
 
-    --accent: 0 65% 75%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 220 70% 50%;
+    --accent-foreground: 45 30% 96%;
 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 20 15% 90%;
-    --input: 20 15% 90%;
-    --ring: 160 35% 45%;
+    --border: 35 20% 85%;
+    --input: 35 20% 85%;
+    --ring: 0 75% 50%;
 
     --radius: 0.75rem;
 
-    /* FitLab custom tokens */
-    --kasargod-green: 160 35% 45%;
-    --kasargod-green-light: 160 40% 90%;
-    --kasargod-peach: 20 80% 85%;
-    --kasargod-pink: 0 65% 75%;
-    --kasargod-mint: 160 30% 88%;
-    --kasargod-coral: 10 80% 72%;
-    --kasargod-lavender: 270 40% 80%;
-    --kasargod-sky: 200 60% 85%;
+    /* FitLabs Desi Maximalism tokens */
+    --desi-red: 0 75% 50%;
+    --desi-red-light: 0 80% 92%;
+    --desi-yellow: 45 95% 58%;
+    --desi-yellow-light: 45 90% 88%;
+    --desi-blue: 220 70% 50%;
+    --desi-blue-light: 220 70% 90%;
+    --desi-saffron: 25 90% 55%;
+    --desi-saffron-light: 25 85% 90%;
+    --desi-green: 150 50% 40%;
+    --desi-green-light: 150 50% 90%;
+    --desi-black: 30 10% 10%;
+    --desi-cream: 45 40% 94%;
+    --desi-pink: 340 70% 60%;
+    --desi-pink-light: 340 70% 92%;
 
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Legacy tokens mapped to new palette */
+    --kasargod-green: 150 50% 40%;
+    --kasargod-green-light: 150 50% 90%;
+    --kasargod-peach: 25 85% 90%;
+    --kasargod-pink: 340 70% 60%;
+    --kasargod-mint: 150 30% 88%;
+    --kasargod-coral: 0 75% 50%;
+    --kasargod-lavender: 270 40% 70%;
+    --kasargod-sky: 220 70% 90%;
+
+    --sidebar-background: 45 30% 97%;
+    --sidebar-foreground: 30 10% 20%;
+    --sidebar-primary: 0 75% 50%;
+    --sidebar-primary-foreground: 45 30% 96%;
+    --sidebar-accent: 45 80% 65%;
+    --sidebar-accent-foreground: 30 10% 10%;
+    --sidebar-border: 35 20% 88%;
+    --sidebar-ring: 0 75% 50%;
   }
 
   .dark {
-    --background: 20 10% 8%;
-    --foreground: 20 10% 95%;
-    --card: 20 10% 12%;
-    --card-foreground: 20 10% 95%;
-    --popover: 20 10% 12%;
-    --popover-foreground: 20 10% 95%;
-    --primary: 160 35% 50%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 20 30% 20%;
-    --secondary-foreground: 20 10% 95%;
-    --muted: 20 10% 18%;
-    --muted-foreground: 20 10% 60%;
-    --accent: 0 65% 65%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 62.8% 30.6%;
+    --background: 30 15% 8%;
+    --foreground: 40 20% 92%;
+    --card: 30 15% 12%;
+    --card-foreground: 40 20% 92%;
+    --popover: 30 15% 12%;
+    --popover-foreground: 40 20% 92%;
+    --primary: 0 75% 55%;
+    --primary-foreground: 45 30% 96%;
+    --secondary: 45 60% 40%;
+    --secondary-foreground: 40 20% 92%;
+    --muted: 30 10% 18%;
+    --muted-foreground: 30 10% 60%;
+    --accent: 220 60% 55%;
+    --accent-foreground: 45 30% 96%;
+    --destructive: 0 62% 30%;
     --destructive-foreground: 210 40% 98%;
-    --border: 20 10% 20%;
-    --input: 20 10% 20%;
-    --ring: 160 35% 50%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --border: 30 10% 22%;
+    --input: 30 10% 22%;
+    --ring: 0 75% 55%;
+    --sidebar-background: 30 15% 10%;
+    --sidebar-foreground: 40 20% 90%;
+    --sidebar-primary: 0 75% 55%;
+    --sidebar-primary-foreground: 45 30% 96%;
+    --sidebar-accent: 30 10% 18%;
+    --sidebar-accent-foreground: 40 20% 90%;
+    --sidebar-border: 30 10% 20%;
+    --sidebar-ring: 0 75% 55%;
   }
 }
 
@@ -93,11 +108,59 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans;
-    font-family: 'DM Sans', sans-serif;
+    @apply bg-background text-foreground;
+    font-family: 'Space Grotesk', sans-serif;
   }
 
   h1, h2, h3, h4 {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.02em;
+  }
+}
+
+@layer utilities {
+  .font-handwritten {
+    font-family: 'Caveat', cursive;
+  }
+
+  .texture-grain {
+    position: relative;
+  }
+  .texture-grain::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.04;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-size: 128px 128px;
+  }
+
+  .sticker-badge {
+    @apply inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide;
+    border: 2px solid currentColor;
+    transform: rotate(-2deg);
+    box-shadow: 3px 3px 0 0 hsl(var(--desi-black));
+  }
+
+  .stamp-badge {
+    @apply inline-flex items-center gap-1 px-3 py-1.5 text-xs font-bold uppercase tracking-widest;
+    border: 3px double currentColor;
+    transform: rotate(-3deg);
+  }
+
+  .card-torn {
+    clip-path: polygon(
+      0% 2%, 3% 0%, 8% 1%, 15% 0%, 22% 2%, 30% 0%, 38% 1%, 45% 0%, 52% 2%, 60% 0%, 68% 1%, 75% 0%, 82% 2%, 90% 0%, 95% 1%, 100% 0%,
+      100% 98%, 97% 100%, 92% 99%, 85% 100%, 78% 98%, 70% 100%, 62% 99%, 55% 100%, 48% 98%, 40% 100%, 32% 99%, 25% 100%, 18% 98%, 10% 100%, 5% 99%, 0% 100%
+    );
+  }
+
+  .desi-shadow {
+    box-shadow: 4px 4px 0 0 hsl(var(--desi-black));
+  }
+
+  .desi-shadow-sm {
+    box-shadow: 2px 2px 0 0 hsl(var(--desi-black));
   }
 }
