@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Heart, Sparkles, Star, Zap } from "lucide-react";
+import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import PageTransition from "@/components/PageTransition";
 import { products, communityFits } from "@/data/mockProducts";
 import ProductCard from "@/components/ProductCard";
 import StyleBadge from "@/components/StyleBadge";
-
-const doodles = ["✦", "★", "◆", "●", "▲", "♦"];
+import { DoodleStar, DoodleCircle, DoodleZigzag, DoodleSparkle, DoodleHanger, DoodleScissors, FloatingDoodle } from "@/components/DesiDoodles";
 
 const Index = () => {
   return (
@@ -16,13 +16,23 @@ const Index = () => {
 
         {/* Hero — Desi Maximalist */}
         <section className="relative overflow-hidden texture-grain">
-          {/* Background decorative elements */}
+          {/* SVG Doodle decorations */}
           <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute top-10 left-10 text-desi-yellow text-6xl font-display opacity-20 rotate-12">★</div>
-            <div className="absolute top-32 right-20 text-primary text-4xl opacity-15 rotate-[-20deg]">◆</div>
-            <div className="absolute bottom-20 left-1/4 text-desi-blue text-5xl opacity-10 rotate-45">●</div>
-            <div className="absolute top-1/2 right-10 w-24 h-24 border-4 border-dashed border-desi-saffron/20 rounded-full" />
-            <div className="absolute bottom-10 right-1/3 w-16 h-16 border-4 border-dashed border-primary/15 rounded-lg rotate-12" />
+            <FloatingDoodle className="top-8 left-8" delay={0.2}>
+              <DoodleStar className="w-14 h-14 text-desi-yellow/30" />
+            </FloatingDoodle>
+            <FloatingDoodle className="top-28 right-16" delay={0.4}>
+              <DoodleCircle className="w-16 h-16 text-primary/20" />
+            </FloatingDoodle>
+            <FloatingDoodle className="bottom-16 left-1/4" delay={0.6}>
+              <DoodleSparkle className="w-10 h-10 text-desi-blue/25" />
+            </FloatingDoodle>
+            <FloatingDoodle className="top-1/2 right-8" delay={0.3}>
+              <DoodleHanger className="w-16 h-16 text-desi-saffron/20" />
+            </FloatingDoodle>
+            <FloatingDoodle className="bottom-8 right-1/4" delay={0.7}>
+              <DoodleScissors className="w-12 h-12 text-primary/15" />
+            </FloatingDoodle>
           </div>
 
           <div className="container mx-auto px-4 py-16 md:py-24">
@@ -92,8 +102,10 @@ const Index = () => {
                   KASARAGOD STYLE ✦
                 </div>
 
-                {/* Decorative doodle circle */}
-                <div className="absolute -right-8 top-1/3 w-20 h-20 rounded-full border-[3px] border-dashed border-desi-saffron/40 animate-wobble" />
+                {/* Decorative doodle */}
+                <FloatingDoodle className="-right-8 top-1/3" delay={0.5}>
+                  <DoodleCircle className="w-20 h-20 text-desi-saffron/30" />
+                </FloatingDoodle>
               </div>
             </div>
           </div>
@@ -116,6 +128,10 @@ const Index = () => {
 
         {/* Explore Collection */}
         <section className="container mx-auto px-4 py-16 relative">
+          {/* Section doodle */}
+          <FloatingDoodle className="top-4 -right-2 hidden lg:block" delay={0.3}>
+            <DoodleZigzag className="w-24 h-8 text-desi-saffron/25" />
+          </FloatingDoodle>
           <div className="text-center mb-12">
             <p className="font-handwritten text-xl text-desi-saffron mb-2 rotate-[-2deg]">handpicked for you ✨</p>
             <h2 className="font-display text-5xl md:text-6xl text-foreground tracking-wide">
@@ -126,8 +142,15 @@ const Index = () => {
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {products.slice(0, 3).map((product) => (
-              <ProductCard key={product.id} product={product} />
+            {products.slice(0, 3).map((product, i) => (
+              <motion.div
+                key={product.id}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.15, duration: 0.5 }}
+              >
+                <ProductCard product={product} />
+              </motion.div>
             ))}
           </div>
           <div className="text-center mt-10">
@@ -200,8 +223,15 @@ const Index = () => {
                 Made with 💛 from Kasaragod, Kerala • © 2026
               </p>
               <div className="flex gap-4">
-                {doodles.map((d, i) => (
-                  <span key={i} className="text-desi-cream/30 text-lg">{d}</span>
+                {["✦", "★", "◆", "●", "▲", "♦"].map((d, i) => (
+                  <motion.span
+                    key={i}
+                    className="text-desi-cream/30 text-lg"
+                    animate={{ rotate: [0, 10, -10, 0] }}
+                    transition={{ duration: 3, repeat: Infinity, delay: i * 0.3 }}
+                  >
+                    {d}
+                  </motion.span>
                 ))}
               </div>
             </div>

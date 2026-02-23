@@ -13,6 +13,8 @@ import Cart from "./pages/Cart";
 import Dashboard from "./pages/seller/Dashboard";
 import Products from "./pages/seller/Products";
 import Upload from "./pages/seller/Upload";
+import ProductDetail from "./pages/ProductDetail";
+import ShopPage from "./pages/ShopPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +30,8 @@ const AnimatedRoutes = () => {
         <Route path="/fitlabs" element={<FitLabs />} />
         <Route path="/ai" element={<AiUpload />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/product/:id" element={<ProductDetail />} />
+        <Route path="/shop/:shopName" element={<ShopPage />} />
         <Route path="/seller/dashboard" element={<Dashboard />} />
         <Route path="/seller/products" element={<Products />} />
         <Route path="/seller/upload" element={<Upload />} />

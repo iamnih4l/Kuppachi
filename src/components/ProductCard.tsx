@@ -1,4 +1,5 @@
 import { Heart, ShoppingBag } from "lucide-react";
+import { Link } from "react-router-dom";
 import type { Product } from "@/data/mockProducts";
 import StyleBadge from "./StyleBadge";
 import { useStore } from "@/store/useStore";
@@ -13,7 +14,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
   return (
     <div className="group cursor-pointer transition-all duration-300 hover:translate-y-[-4px] hover:shadow-[6px_8px_0_0_hsl(var(--desi-black))] rounded-xl border-2 border-foreground/10 bg-card overflow-hidden">
-      <div className="relative overflow-hidden aspect-[4/5]">
+      <Link to={`/product/${product.id}`} className="block relative overflow-hidden aspect-[4/5]">
         <img
           src={product.image}
           alt={product.name}
@@ -30,10 +31,12 @@ const ProductCard = ({ product }: ProductCardProps) => {
         </button>
         {/* Grainy overlay */}
         <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/5 transition-colors duration-300 pointer-events-none" />
-      </div>
+      </Link>
       <div className="p-3">
-        <p className="text-[10px] font-bold text-muted-foreground tracking-[0.15em] uppercase">{product.shop}</p>
-        <h3 className="font-sans text-sm font-semibold text-foreground mt-0.5">{product.name}</h3>
+        <Link to={`/shop/${encodeURIComponent(product.shop)}`} className="text-[10px] font-bold text-muted-foreground tracking-[0.15em] uppercase hover:text-primary transition-colors">{product.shop}</Link>
+        <Link to={`/product/${product.id}`} className="block">
+          <h3 className="font-sans text-sm font-semibold text-foreground mt-0.5 hover:text-primary transition-colors">{product.name}</h3>
+        </Link>
         <p className="text-base font-bold text-primary mt-1 font-display tracking-wide">₹{product.price.toLocaleString()}</p>
         <div className="flex items-center justify-between mt-2">
           <div className="flex gap-1.5">
