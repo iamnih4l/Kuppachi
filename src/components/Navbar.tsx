@@ -13,7 +13,7 @@ const Navbar = () => {
   const buyerLinks = [
     { to: "/marketplace", label: "SHOP" },
     { to: "/fitlabs", label: "FITLAB ⚡", isCta: true },
-    { to: "/ai", label: "CREATORS" },
+    { to: "/creators", label: "CREATORS" },
   ];
 
   const navLinks = role === "seller" ? [] : buyerLinks;
