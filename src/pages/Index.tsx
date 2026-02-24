@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Heart, Sparkles, Star, Zap } from "lucide-react";
+import { ArrowRight, Heart, Zap } from "lucide-react";
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import PageTransition from "@/components/PageTransition";
@@ -7,12 +7,45 @@ import { products, communityFits } from "@/data/mockProducts";
 import ProductCard from "@/components/ProductCard";
 import StyleBadge from "@/components/StyleBadge";
 import { DoodleStar, DoodleCircle, DoodleZigzag, DoodleSparkle, DoodleHanger, DoodleScissors, FloatingDoodle } from "@/components/DesiDoodles";
+import { AnimatedShinyText } from "@/components/ui/animated-shiny-text";
+import { TestimonialsColumn } from "@/components/ui/testimonials-columns";
+import { LogoCarousel } from "@/components/ui/logo-carousel";
+import { GradientHeading } from "@/components/ui/gradient-heading";
+import { Accordion05 } from "@/components/ui/accordion-05";
+import { MinimalFooter } from "@/components/ui/minimal-footer";
+import { fitLabsLogos } from "@/data/fitLabsLogos";
+
+const fitLabsTestimonials = [
+  { text: "FitLabs changed how I shop. The Mix & Match lab is so fun — I found my perfect casual look in minutes!", image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face", name: "Priya M.", role: "Kochi" },
+  { text: "Finally a platform that gets Kasaragod fashion. Our shop's reach has doubled since joining.", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face", name: "Rahul K.", role: "Seller, Malabar Threads" },
+  { text: "AI color recommendations are spot on. Bought a saffron kurta and it looks perfect on me!", image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face", name: "Anitha S.", role: "Kannur" },
+  { text: "The desi maximalist vibe is everything. Shopping feels like browsing a local bazaar.", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face", name: "Vikram N.", role: "Thiruvananthapuram" },
+  { text: "Best decision for our brand. Analytics and product management are so easy.", image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&crop=face", name: "Divya R.", role: "Seller, Artisan Collective" },
+  { text: "Culture-first fashion done right. Every piece feels authentic.", image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face", name: "Arjun P.", role: "Kozhikode" },
+];
+
+const faqItems = [
+  { id: "1", title: "What is FitLabs?", content: "FitLabs is a Gen-Z focused fashion-tech marketplace that brings Kasaragod's unique fashion culture to the rest of Kerala. We blend AI-powered personalization with culture-first, desi-maximalist design." },
+  { id: "2", title: "How does Mix & Match work?", content: "Our Mix & Match Lab lets you drag-and-drop tops, bottoms, shoes, and accessories onto a canvas. AI gives you color harmony scores, style suggestions, and best-for occasions." },
+  { id: "3", title: "Can I sell on FitLabs?", content: "Yes! Local Kasaragod fashion stores, designers, and creators can onboard as sellers. You get product management, analytics, and access to buyers across Kerala." },
+  { id: "4", title: "Where do you deliver?", content: "We currently serve Kerala, with Kasaragod as our home base. Expansion across India is on our roadmap." },
+];
+
+const firstCol = fitLabsTestimonials.slice(0, 3);
+const secondCol = fitLabsTestimonials.slice(3, 6);
 
 const Index = () => {
   return (
     <PageTransition>
       <div className="min-h-screen bg-background">
         <Navbar />
+
+        {/* Announcement */}
+        <div className="py-6 flex justify-center">
+          <AnimatedShinyText className="inline-flex items-center justify-center px-4 py-1">
+            ✨ Introducing FitLabs
+          </AnimatedShinyText>
+        </div>
 
         {/* Hero — Desi Maximalist */}
         <section className="relative overflow-hidden texture-grain">
@@ -163,6 +196,57 @@ const Index = () => {
           </div>
         </section>
 
+        {/* Testimonials */}
+        <section className="py-16 bg-background">
+          <div className="container mx-auto px-4">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="flex flex-col items-center justify-center max-w-[540px] mx-auto text-center mb-10"
+            >
+              <div className="border-2 border-foreground/20 py-1 px-4 rounded-lg font-bold text-sm">Testimonials</div>
+              <h2 className="font-display text-3xl md:text-4xl lg:text-5xl tracking-tight mt-5 text-foreground">
+                What our community says
+              </h2>
+              <p className="text-muted-foreground mt-3">
+                Real buyers and sellers from across Kerala.
+              </p>
+            </motion.div>
+            <div className="flex justify-center gap-6 [mask-image:linear-gradient(to_bottom,transparent,black_25%,black_75%,transparent)] max-h-[540px] overflow-hidden">
+              <TestimonialsColumn testimonials={firstCol} duration={18} />
+              <TestimonialsColumn testimonials={secondCol} className="hidden md:block" duration={22} />
+            </div>
+          </div>
+        </section>
+
+        {/* FAQ Accordion */}
+        <section className="bg-desi-cream texture-grain py-16">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <p className="font-handwritten text-xl text-desi-saffron mb-2">got questions? ✦</p>
+              <h2 className="font-display text-5xl md:text-6xl text-foreground tracking-wide">
+                FAQ
+              </h2>
+            </div>
+            <Accordion05 items={faqItems} defaultValue="1" />
+          </div>
+        </section>
+
+        {/* Logo Carousel - Featured Shops */}
+        <section className="py-16 bg-background">
+          <div className="container mx-auto px-4 text-center">
+            <GradientHeading variant="secondary" size="lg" className="mb-2">
+              Featured on FitLabs
+            </GradientHeading>
+            <p className="text-muted-foreground text-sm mb-8">Local shops you can trust</p>
+            <div className="flex justify-center">
+              <LogoCarousel columnCount={3} logos={fitLabsLogos} />
+            </div>
+          </div>
+        </section>
+
         {/* Community Fits */}
         <section className="bg-desi-cream texture-grain py-16">
           <div className="container mx-auto px-4">
@@ -209,34 +293,7 @@ const Index = () => {
           </div>
         </section>
 
-        {/* Footer */}
-        <footer className="bg-desi-black text-desi-cream py-10 mt-0">
-          <div className="container mx-auto px-4">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center rotate-[-3deg]">
-                  <Zap className="w-5 h-5 text-primary-foreground" />
-                </div>
-                <span className="font-display text-2xl tracking-wider">FITLABS</span>
-              </div>
-              <p className="text-sm text-desi-cream/60 font-medium">
-                Made with 💛 from Kasaragod, Kerala • © 2026
-              </p>
-              <div className="flex gap-4">
-                {["✦", "★", "◆", "●", "▲", "♦"].map((d, i) => (
-                  <motion.span
-                    key={i}
-                    className="text-desi-cream/30 text-lg"
-                    animate={{ rotate: [0, 10, -10, 0] }}
-                    transition={{ duration: 3, repeat: Infinity, delay: i * 0.3 }}
-                  >
-                    {d}
-                  </motion.span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </footer>
+        <MinimalFooter />
       </div>
     </PageTransition>
   );

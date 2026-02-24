@@ -117,6 +117,14 @@ export default {
           "70%": { transform: "scale(0.9)" },
           "100%": { transform: "scale(1)", opacity: "1" },
         },
+        "shiny-text": {
+          "0%, 90%, 100%": {
+            backgroundPosition: "calc(-100% - var(--shiny-width)) 0",
+          },
+          "30%, 60%": {
+            backgroundPosition: "calc(100% + var(--shiny-width)) 0",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -124,6 +132,7 @@ export default {
         "fade-in": "fade-in 0.3s ease-out",
         "wobble": "wobble 2s ease-in-out infinite",
         "bounce-in": "bounce-in 0.5s ease-out",
+        "shiny-text": "shiny-text 8s infinite",
       },
     },
   },
