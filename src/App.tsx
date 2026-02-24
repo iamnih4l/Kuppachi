@@ -7,7 +7,7 @@ import { AnimatePresence } from "framer-motion";
 import Index from "./pages/Index";
 import Marketplace from "./pages/Marketplace";
 import FitLabs from "./pages/FitLabs";
-import AiUpload from "./pages/AiUpload";
+import AiFeatures from "./pages/AiFeatures";
 import Creators from "./pages/Creators";
 import Login from "./pages/Login";
 import Cart from "./pages/Cart";
@@ -29,7 +29,7 @@ const AnimatedRoutes = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/marketplace" element={<Marketplace />} />
         <Route path="/fitlabs" element={<FitLabs />} />
-        <Route path="/ai" element={<AiUpload />} />
+        <Route path="/ai" element={<AiFeatures />} />
         <Route path="/creators" element={<Creators />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/product/:id" element={<ProductDetail />} />
