@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Store } from "lucide-react";
@@ -8,7 +8,7 @@ import ProductCard from "@/components/ProductCard";
 import { products } from "@/data/mockProducts";
 import { DoodleSparkle, DoodleZigzag, FloatingDoodle } from "@/components/DesiDoodles";
 
-const filters = ["All", "Tops", "Bottoms", "Shoes", "Accessories"];
+const categories = ["All", "Tops", "Bottoms", "Shoes", "Accessories"] as const;
 
 const shopMeta: Record<string, { emoji: string; color: string }> = {
   "Malabar Threads": { emoji: "🧵", color: "bg-desi-saffron-light border-desi-saffron/30" },
@@ -18,17 +18,22 @@ const shopMeta: Record<string, { emoji: string; color: string }> = {
 };
 
 const Marketplace = () => {
-  const [active, setActive] = useState("All");
+  const [activeCategory, setActiveCategory] = useState<string>("All");
   const [activeShop, setActiveShop] = useState<string | null>(null);
 
   const uniqueShops = useMemo(() => [...new Set(products.map((p) => p.shop))], []);
 
   const filteredProducts = useMemo(() => {
     return products.filter((p) => {
-      if (activeShop && p.shop !== activeShop) return false;
-      return true;
+      const matchesShop = !activeShop || p.shop === activeShop;
+      const matchesCategory = activeCategory === "All" || p.category === activeCategory;
+      return matchesShop && matchesCategory;
     });
-  }, [activeShop]);
+  }, [activeShop, activeCategory]);
+
+  const handleShopClick = useCallback((shop: string) => {
+    setActiveShop((prev) => (prev === shop ? null : shop));
+  }, []);
 
   return (
     <PageTransition>
@@ -78,7 +83,7 @@ const Marketplace = () => {
                   key={shop}
                   whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.97 }}
-                  onClick={() => setActiveShop(activeShop === shop ? null : shop)}
+                  onClick={() => handleShopClick(shop)}
                   className={`px-4 py-2.5 rounded-lg text-sm font-bold transition-all border-2 inline-flex items-center gap-2 ${
                     activeShop === shop
                       ? "bg-primary text-primary-foreground border-primary desi-shadow-sm"
@@ -105,12 +110,12 @@ const Marketplace = () => {
         <section className="container mx-auto px-4 pb-10">
           {/* Category Filters */}
           <div className="flex gap-2 justify-center mb-10 flex-wrap">
-            {filters.map((f) => (
+            {categories.map((f) => (
               <button
                 key={f}
-                onClick={() => setActive(f)}
+                onClick={() => setActiveCategory(f)}
                 className={`px-5 py-2 rounded-lg text-sm font-bold transition-all border-2 ${
-                  active === f
+                  activeCategory === f
                     ? "bg-primary text-primary-foreground border-primary desi-shadow-sm"
                     : "bg-card text-muted-foreground border-foreground/10 hover:bg-muted hover:border-foreground/20"
                 }`}
@@ -138,7 +143,7 @@ const Marketplace = () => {
             <div className="text-center py-16">
               <p className="text-5xl mb-3">🏪</p>
               <h3 className="font-display text-2xl text-foreground">NO PRODUCTS FOUND</h3>
-              <p className="text-muted-foreground mt-2 text-sm">Try a different shop or filter.</p>
+              <p className="text-muted-foreground mt-2 text-sm">Try a different shop or category.</p>
             </div>
           )}
         </section>
