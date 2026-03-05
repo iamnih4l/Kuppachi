@@ -16,6 +16,8 @@ import Products from "./pages/seller/Products";
 import Upload from "./pages/seller/Upload";
 import ProductDetail from "./pages/ProductDetail";
 import ShopPage from "./pages/ShopPage";
+import Forum from "./pages/Forum";
+import CreatorProfile from "./pages/CreatorProfile";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -37,6 +39,8 @@ const AnimatedRoutes = () => {
         <Route path="/seller/dashboard" element={<Dashboard />} />
         <Route path="/seller/products" element={<Products />} />
         <Route path="/seller/upload" element={<Upload />} />
+        <Route path="/forum" element={<Forum />} />
+        <Route path="/creator/:id" element={<CreatorProfile />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </AnimatePresence>

@@ -2,23 +2,24 @@ import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import PageTransition from "@/components/PageTransition";
-import { fitLabItems, type FitLabItem } from "@/data/mockProducts";
+import { useStore, type SavedFit } from "@/store/useStore";
+import type { Product } from "@/data/mockProducts";
 import { RotateCcw, Sparkles, Save, Share2, X, GripVertical, CheckCircle } from "lucide-react";
 import { DoodleStar, DoodleSparkle, FloatingDoodle } from "@/components/DesiDoodles";
 import { useToast } from "@/hooks/use-toast";
 
 const categories = [
-  { key: "tops" as const, label: "TOPS", icon: "👕", slot: "top" },
-  { key: "bottoms" as const, label: "BOTTOMS", icon: "👖", slot: "bottom" },
-  { key: "shoes" as const, label: "SHOES", icon: "👟", slot: "shoes" },
-  { key: "accessories" as const, label: "ACCESSORIES", icon: "⌚", slot: "accessory" },
+  { key: "Tops" as const, label: "TOPS", icon: "👕", slot: "top" },
+  { key: "Bottoms" as const, label: "BOTTOMS", icon: "👖", slot: "bottom" },
+  { key: "Shoes" as const, label: "SHOES", icon: "👟", slot: "shoes" },
+  { key: "Accessories" as const, label: "ACCESSORIES", icon: "⌚", slot: "accessory" },
 ];
 
 type OutfitSlots = {
-  top: FitLabItem | null;
-  bottom: FitLabItem | null;
-  shoes: FitLabItem | null;
-  accessory: FitLabItem | null;
+  top: Product | null;
+  bottom: Product | null;
+  shoes: Product | null;
+  accessory: Product | null;
 };
 
 const slotLabels: Record<keyof OutfitSlots, { label: string; icon: string }> = {
@@ -30,16 +31,16 @@ const slotLabels: Record<keyof OutfitSlots, { label: string; icon: string }> = {
 
 // Simple color harmony calculation
 const getColorHarmony = (slots: OutfitSlots): number => {
-  const filled = Object.values(slots).filter(Boolean) as FitLabItem[];
+  const filled = Object.values(slots).filter(Boolean) as Product[];
   if (filled.length < 2) return 0;
   // Mock scoring based on number of items
   return Math.min(100, filled.length * 25 + Math.floor(Math.random() * 10) + 15);
 };
 
 const getStyleSuggestions = (slots: OutfitSlots): string[] => {
-  const filled = Object.values(slots).filter(Boolean) as FitLabItem[];
+  const filled = Object.values(slots).filter(Boolean) as Product[];
   if (filled.length === 0) return ["Add items to get AI suggestions"];
-  
+
   const suggestions: string[] = [];
   if (!slots.top) suggestions.push("🔥 Add a top to complete the look");
   if (!slots.bottom) suggestions.push("👖 Try pairing with bottoms");
@@ -59,24 +60,34 @@ const getBestFor = (slots: OutfitSlots): string[] => {
 };
 
 const FitLabs = () => {
-  const [activeCategory, setActiveCategory] = useState<FitLabItem["category"]>("tops");
+  const products = useStore((s) => s.products);
+  const saveFitAction = useStore((s) => s.saveFit);
+  const addForumPost = useStore((s) => s.addForumPost);
+
+  const [activeCategory, setActiveCategory] = useState<Product["category"]>("Tops");
   const [outfit, setOutfit] = useState<OutfitSlots>({ top: null, bottom: null, shoes: null, accessory: null });
-  const [draggedItem, setDraggedItem] = useState<FitLabItem | null>(null);
+  const [draggedItem, setDraggedItem] = useState<Product | null>(null);
   const [dragOverSlot, setDragOverSlot] = useState<keyof OutfitSlots | null>(null);
+  const [isSaveModalOpen, setIsSaveModalOpen] = useState(false);
+  const [fitName, setFitName] = useState("");
+
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const [shareCaption, setShareCaption] = useState("");
+
   const { toast } = useToast();
 
-  const filteredItems = fitLabItems.filter((item) => item.category === activeCategory);
+  const filteredItems = products.filter((item) => item.category === activeCategory);
   const harmony = getColorHarmony(outfit);
   const suggestions = getStyleSuggestions(outfit);
   const bestFor = getBestFor(outfit);
   const filledCount = Object.values(outfit).filter(Boolean).length;
 
-  const categoryToSlot = (cat: FitLabItem["category"]): keyof OutfitSlots => {
-    const map: Record<string, keyof OutfitSlots> = { tops: "top", bottoms: "bottom", shoes: "shoes", accessories: "accessory" };
+  const categoryToSlot = (cat: Product["category"]): keyof OutfitSlots => {
+    const map: Record<string, keyof OutfitSlots> = { Tops: "top", Bottoms: "bottom", Shoes: "shoes", Accessories: "accessory" };
     return map[cat];
   };
 
-  const handleDragStart = useCallback((item: FitLabItem) => {
+  const handleDragStart = useCallback((item: Product) => {
     setDraggedItem(item);
   }, []);
 
@@ -99,7 +110,7 @@ const FitLabs = () => {
     setDragOverSlot(null);
   }, [draggedItem, toast]);
 
-  const handleItemClick = useCallback((item: FitLabItem) => {
+  const handleItemClick = useCallback((item: Product) => {
     const slot = categoryToSlot(item.category);
     setOutfit((prev) => ({ ...prev, [slot]: item }));
     toast({ title: `${item.name} added! ✨`, description: `Placed in ${slotLabels[slot].label} slot` });
@@ -114,13 +125,54 @@ const FitLabs = () => {
     toast({ title: "Outfit reset! 🔄" });
   }, [toast]);
 
-  const saveOutfit = useCallback(() => {
-    if (filledCount === 0) {
-      toast({ title: "Add items first!", description: "Drop some pieces onto the canvas" });
+  const handleSaveFit = () => {
+    if (!fitName) {
+      toast({ title: "Validation Error", description: "Please enter a name for your outfit.", variant: "destructive" });
       return;
     }
-    toast({ title: "Outfit saved! 💾", description: "Your fit has been saved to your collection" });
-  }, [filledCount, toast]);
+    const newFit: SavedFit = {
+      id: `fit_${Date.now()}`,
+      name: fitName,
+      items: outfit,
+      createdAt: new Date().toISOString()
+    };
+    saveFitAction(newFit);
+    setIsSaveModalOpen(false);
+    setFitName("");
+    toast({ title: "Outfit saved! 💾", description: "Your fit has been saved to your collection." });
+    return newFit;
+  };
+
+  const handleShareToForum = () => {
+    if (!shareCaption) {
+      toast({ title: "Validation Error", description: "Please enter a caption for your post.", variant: "destructive" });
+      return;
+    }
+
+    // Save the fit implicitly if sharing directly
+    const newFit: SavedFit = {
+      id: `fit_${Date.now()}`,
+      name: "Shared Fit",
+      items: outfit,
+      createdAt: new Date().toISOString()
+    };
+    saveFitAction(newFit);
+
+    addForumPost({
+      id: `post_${Date.now()}`,
+      authorName: "Guest User", // Mock auth
+      authorAvatar: "😎",
+      content: shareCaption,
+      attachedFit: newFit,
+      likes: 0,
+      comments: 0,
+      createdAt: new Date().toISOString(),
+    });
+
+    setIsShareModalOpen(false);
+    setShareCaption("");
+    toast({ title: "Posted to Forum! 🚀", description: "Your fit is now live for everyone to see." });
+  };
 
   return (
     <PageTransition>
@@ -146,10 +198,100 @@ const FitLabs = () => {
           </div>
         </div>
 
+        {/* Save Modal */}
+        <AnimatePresence>
+          {isSaveModalOpen && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm flex items-center justify-center p-4"
+            >
+              <motion.div
+                initial={{ scale: 0.95 }}
+                animate={{ scale: 1 }}
+                exit={{ scale: 0.95 }}
+                className="bg-card w-full max-w-md rounded-xl border-2 border-foreground/10 p-6 desi-shadow"
+              >
+                <div className="flex justify-between items-center mb-6">
+                  <h3 className="font-display text-2xl tracking-wide">SAVE OUTFIT</h3>
+                  <button onClick={() => setIsSaveModalOpen(false)} className="text-muted-foreground hover:text-foreground">
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+                <div className="space-y-4">
+                  <div>
+                    <label className="text-xs font-bold text-foreground mb-2 block tracking-widest uppercase">OUTFIT NAME</label>
+                    <input
+                      type="text"
+                      value={fitName}
+                      onChange={(e) => setFitName(e.target.value)}
+                      placeholder="e.g. Kozhikode Street Look"
+                      className="w-full h-12 rounded-xl border-2 border-foreground/10 bg-background px-4 text-sm font-medium placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
+                    />
+                  </div>
+                  <button
+                    onClick={handleSaveFit}
+                    className="w-full py-3.5 rounded-xl bg-desi-green text-desi-green-foreground font-bold text-sm desi-shadow hover:translate-y-[-2px] transition-all"
+                  >
+                    SAVE COLLECTION
+                  </button>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Share Modal */}
+        <AnimatePresence>
+          {isShareModalOpen && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm flex items-center justify-center p-4"
+            >
+              <motion.div
+                initial={{ scale: 0.95 }}
+                animate={{ scale: 1 }}
+                exit={{ scale: 0.95 }}
+                className="bg-card w-full max-w-md rounded-xl border-2 border-foreground/10 p-6 desi-shadow"
+              >
+                <div className="flex justify-between items-center mb-6">
+                  <h3 className="font-display text-2xl tracking-wide flex items-center gap-2">
+                    <Share2 className="w-5 h-5 text-desi-blue" /> SHARE FIT
+                  </h3>
+                  <button onClick={() => setIsShareModalOpen(false)} className="text-muted-foreground hover:text-foreground">
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+                <div className="space-y-4">
+                  <div>
+                    <label className="text-xs font-bold text-foreground mb-2 block tracking-widest uppercase">CAPTION</label>
+                    <textarea
+                      value={shareCaption}
+                      onChange={(e) => setShareCaption(e.target.value)}
+                      placeholder="e.g. Check out my new summer look! Missing some shoes though..."
+                      rows={4}
+                      className="w-full rounded-xl border-2 border-foreground/10 bg-background px-4 py-3 text-sm font-medium placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors resize-none"
+                    />
+                  </div>
+                  <button
+                    onClick={handleShareToForum}
+                    className="w-full py-3.5 rounded-xl bg-desi-blue text-desi-blue-foreground font-bold text-sm desi-shadow hover:translate-y-[-2px] transition-all"
+                  >
+                    POST TO FORUM
+                  </button>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         {/* Studio Layout */}
         <div className="container mx-auto px-4 py-8">
           <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr_280px] gap-6">
-            
+
             {/* Left Sidebar — Item Picker */}
             <div className="bg-card rounded-xl border-2 border-foreground/10 p-5">
               <h3 className="font-display text-xl text-foreground mb-4 tracking-wide">CHOOSE ITEMS</h3>
@@ -159,11 +301,10 @@ const FitLabs = () => {
                   <button
                     key={cat.key}
                     onClick={() => setActiveCategory(cat.key)}
-                    className={`flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-bold transition-all text-left ${
-                      activeCategory === cat.key
-                        ? "bg-primary text-primary-foreground desi-shadow-sm"
-                        : "text-muted-foreground hover:bg-muted"
-                    }`}
+                    className={`flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-bold transition-all text-left ${activeCategory === cat.key
+                      ? "bg-primary text-primary-foreground desi-shadow-sm"
+                      : "text-muted-foreground hover:bg-muted"
+                      }`}
                   >
                     <span>{cat.icon}</span>
                     {cat.label}
@@ -186,17 +327,17 @@ const FitLabs = () => {
                       onClick={() => handleItemClick(item)}
                       whileHover={{ x: 4 }}
                       whileTap={{ scale: 0.97 }}
-                      className={`flex items-center gap-3 p-2.5 rounded-lg cursor-grab active:cursor-grabbing transition-colors border-2 ${
-                        isActive
-                          ? "bg-desi-yellow-light border-desi-yellow/50 desi-shadow-sm"
-                          : "border-transparent hover:bg-desi-yellow-light/50 hover:border-desi-yellow/20"
-                      }`}
+                      className={`flex items-center gap-3 p-2.5 rounded-lg cursor-grab active:cursor-grabbing transition-colors border-2 ${isActive
+                        ? "bg-desi-yellow-light border-desi-yellow/50 desi-shadow-sm"
+                        : "border-transparent hover:bg-desi-yellow-light/50 hover:border-desi-yellow/20"
+                        }`}
                     >
                       <GripVertical className="w-3 h-3 text-muted-foreground/40 shrink-0" />
                       <div
-                        className="w-10 h-10 rounded-lg border-2 border-foreground/15 shrink-0"
-                        style={{ backgroundColor: item.color }}
-                      />
+                        className="w-10 h-10 rounded-lg border-2 border-foreground/15 shrink-0 overflow-hidden"
+                      >
+                        <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                      </div>
                       <span className="text-sm font-medium text-foreground truncate">{item.name}</span>
                       {isActive && <CheckCircle className="w-3.5 h-3.5 text-desi-green shrink-0 ml-auto" />}
                     </motion.div>
@@ -228,15 +369,14 @@ const FitLabs = () => {
                       onDragLeave={handleDragLeave}
                       onDrop={(e) => handleDrop(e, slot)}
                       layout
-                      className={`relative rounded-xl border-2 border-dashed flex flex-col items-center justify-center min-h-[160px] transition-all ${
-                        item
-                          ? "border-desi-green/40 bg-card"
-                          : isOver && canDrop
+                      className={`relative rounded-xl border-2 border-dashed flex flex-col items-center justify-center min-h-[160px] transition-all ${item
+                        ? "border-desi-green/40 bg-card"
+                        : isOver && canDrop
                           ? "border-primary bg-desi-red-light/30 scale-[1.02]"
                           : isOver && !canDrop
-                          ? "border-destructive/40 bg-destructive/5"
-                          : "border-foreground/15 bg-card/50 hover:border-foreground/25"
-                      }`}
+                            ? "border-destructive/40 bg-destructive/5"
+                            : "border-foreground/15 bg-card/50 hover:border-foreground/25"
+                        }`}
                     >
                       <AnimatePresence mode="wait">
                         {item ? (
@@ -248,9 +388,10 @@ const FitLabs = () => {
                             className="flex flex-col items-center gap-2 p-4"
                           >
                             <div
-                              className="w-20 h-20 rounded-xl border-2 border-foreground/15 desi-shadow-sm"
-                              style={{ backgroundColor: item.color }}
-                            />
+                              className="w-20 h-20 rounded-xl border-2 border-foreground/15 desi-shadow-sm overflow-hidden bg-background flex items-center justify-center p-1"
+                            >
+                              <img src={item.image} alt={item.name} className="w-full h-full object-cover rounded-lg" />
+                            </div>
                             <p className="text-xs font-bold text-foreground text-center">{item.name}</p>
                             <button
                               onClick={() => removeFromSlot(slot)}
@@ -291,14 +432,14 @@ const FitLabs = () => {
                     return (
                       <div
                         key={slot}
-                        className={`w-10 h-10 rounded-lg border-2 transition-all ${
-                          item
-                            ? "border-foreground/20 desi-shadow-sm"
-                            : "border-dashed border-foreground/10"
-                        }`}
-                        style={item ? { backgroundColor: item.color } : { backgroundColor: "transparent" }}
+                        className={`w-10 h-10 rounded-lg border-2 transition-all flex items-center justify-center p-0.5 ${item
+                          ? "border-foreground/20 desi-shadow-sm bg-background"
+                          : "border-dashed border-foreground/10 bg-transparent"
+                          }`}
                         title={item ? item.name : slotLabels[slot].label}
-                      />
+                      >
+                        {item && <img src={item.image} alt={item.name} className="w-full h-full object-cover rounded-md" />}
+                      </div>
                     );
                   })}
                 </motion.div>
@@ -387,12 +528,27 @@ const FitLabs = () => {
               <Sparkles className="w-4 h-4" /> AI SUGGEST
             </button>
             <button
-              onClick={saveOutfit}
+              onClick={() => {
+                if (filledCount === 0) {
+                  toast({ title: "Add items first!", description: "Drop some pieces onto the canvas" });
+                  return;
+                }
+                setIsSaveModalOpen(true);
+              }}
               className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg border-2 border-foreground/15 text-sm font-bold text-foreground hover:bg-muted transition-colors"
             >
               <Save className="w-4 h-4" /> SAVE FIT
             </button>
-            <button className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg border-2 border-foreground/15 text-sm font-bold text-foreground hover:bg-muted transition-colors">
+            <button
+              onClick={() => {
+                if (filledCount === 0) {
+                  toast({ title: "Add items first!", description: "Drop some pieces onto the canvas before sharing" });
+                  return;
+                }
+                setIsShareModalOpen(true);
+              }}
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg border-2 border-foreground/15 text-sm font-bold text-foreground hover:bg-muted transition-colors"
+            >
               <Share2 className="w-4 h-4" /> SHARE
             </button>
           </div>

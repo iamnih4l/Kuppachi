@@ -13,6 +13,7 @@ const Navbar = () => {
   const buyerLinks = [
     { to: "/marketplace", label: "SHOP" },
     { to: "/fitlabs", label: "FITLAB ⚡", isCta: true },
+    { to: "/forum", label: "FORUM" },
     { to: "/ai", label: "AI STYLE" },
     { to: "/creators", label: "CREATORS" },
   ];
@@ -46,11 +47,10 @@ const Navbar = () => {
               <Link
                 key={link.to}
                 to={link.to}
-                className={`px-4 py-2 text-sm font-bold transition-colors rounded-lg ${
-                  location.pathname === link.to
+                className={`px-4 py-2 text-sm font-bold transition-colors rounded-lg ${location.pathname === link.to
                     ? "text-primary bg-desi-red-light"
                     : "text-foreground hover:bg-muted"
-                }`}
+                  }`}
               >
                 {link.label}
               </Link>
@@ -109,13 +109,12 @@ const Navbar = () => {
                 key={link.to}
                 to={link.to}
                 onClick={() => setMobileOpen(false)}
-                className={`text-sm font-bold py-2.5 px-3 rounded-lg ${
-                  link.isCta
+                className={`text-sm font-bold py-2.5 px-3 rounded-lg ${link.isCta
                     ? "text-center bg-desi-yellow text-desi-black desi-shadow-sm"
                     : location.pathname === link.to
-                    ? "text-primary bg-desi-red-light"
-                    : "text-foreground hover:bg-muted"
-                }`}
+                      ? "text-primary bg-desi-red-light"
+                      : "text-foreground hover:bg-muted"
+                  }`}
               >
                 {link.label}
               </Link>

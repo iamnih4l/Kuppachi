@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { CheckCircle, MapPin, Users, Package, Send, Sparkles, Star } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import PageTransition from "@/components/PageTransition";
@@ -68,37 +69,40 @@ const Creators = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1, duration: 0.4 }}
-                className={`bg-card rounded-xl border-2 border-foreground/10 p-5 hover:translate-y-[-4px] hover:shadow-[5px_7px_0_0_hsl(var(--desi-black))] transition-all ${
-                  i % 2 === 0 ? "rotate-[-1deg]" : "rotate-[1deg]"
-                }`}
               >
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-14 h-14 rounded-xl bg-desi-yellow-light border-2 border-desi-yellow/40 flex items-center justify-center text-2xl">
-                    {creator.avatar}
-                  </div>
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-1.5">
-                      <h3 className="font-bold text-sm text-foreground truncate">{creator.name}</h3>
-                      {creator.verified && <CheckCircle className="w-3.5 h-3.5 text-desi-blue shrink-0" />}
+                <Link
+                  to={`/creator/${creator.id}`}
+                  className={`block bg-card rounded-xl border-2 border-foreground/10 p-5 hover:translate-y-[-4px] hover:shadow-[5px_7px_0_0_hsl(var(--desi-black))] transition-all ${i % 2 === 0 ? "rotate-[-1deg]" : "rotate-[1deg]"
+                    }`}
+                >
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-14 h-14 rounded-xl bg-desi-yellow-light border-2 border-desi-yellow/40 flex items-center justify-center text-2xl">
+                      {creator.avatar}
                     </div>
-                    <p className="text-xs text-muted-foreground font-medium flex items-center gap-1">
-                      <MapPin className="w-3 h-3" /> {creator.location}
-                    </p>
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-1.5">
+                        <h3 className="font-bold text-sm text-foreground truncate">{creator.name}</h3>
+                        {creator.verified && <CheckCircle className="w-3.5 h-3.5 text-desi-blue shrink-0" />}
+                      </div>
+                      <p className="text-xs text-muted-foreground font-medium flex items-center gap-1">
+                        <MapPin className="w-3 h-3" /> {creator.location}
+                      </p>
+                    </div>
                   </div>
-                </div>
 
-                <div className="bg-desi-cream rounded-lg px-3 py-2 mb-3">
-                  <p className="text-xs font-bold text-foreground">{creator.specialty}</p>
-                </div>
+                  <div className="bg-desi-cream rounded-lg px-3 py-2 mb-3">
+                    <p className="text-xs font-bold text-foreground">{creator.specialty}</p>
+                  </div>
 
-                <div className="flex justify-between text-xs text-muted-foreground">
-                  <span className="flex items-center gap-1 font-medium">
-                    <Users className="w-3 h-3" /> {creator.followers.toLocaleString()}
-                  </span>
-                  <span className="flex items-center gap-1 font-medium">
-                    <Package className="w-3 h-3" /> {creator.products} items
-                  </span>
-                </div>
+                  <div className="flex justify-between text-xs text-muted-foreground">
+                    <span className="flex items-center gap-1 font-medium">
+                      <Users className="w-3 h-3" /> {creator.followers.toLocaleString()}
+                    </span>
+                    <span className="flex items-center gap-1 font-medium">
+                      <Package className="w-3 h-3" /> {creator.products} items
+                    </span>
+                  </div>
+                </Link>
               </motion.div>
             ))}
           </div>
